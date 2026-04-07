@@ -2,12 +2,13 @@ package com.whatsuphouse.backend.domain.application;
 
 import com.whatsuphouse.backend.domain.application.dto.ApplicationRequest;
 import com.whatsuphouse.backend.domain.application.dto.ApplicationResponse;
+import com.whatsuphouse.backend.global.auth.UserPrincipal;
 import com.whatsuphouse.backend.global.common.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,10 +25,9 @@ public class ApplicationController {
     @Operation(summary = "로그인 유저 게더링 신청")
     public ApiResponse<ApplicationResponse> applyAsUser(
             @PathVariable UUID gatheringId,
-            Authentication authentication,
+            @AuthenticationPrincipal UserPrincipal principal,
             @RequestBody @Valid ApplicationRequest request) {
-        UUID userId = UUID.fromString(authentication.getName());
-        return ApiResponse.success(applicationService.applyAsUser(gatheringId, userId, request));
+        return ApiResponse.success(applicationService.applyAsUser(gatheringId, principal.getUserId(), request));
     }
 
     @PostMapping("/guest")
