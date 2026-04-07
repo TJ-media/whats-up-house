@@ -1,0 +1,15 @@
+# Mac
+.DS_Store
+
+# 압축파일
+*.zip
+
+# 이미지 파일 (루트)
+*.png
+*.jpg
+*.jpeg
+
+# 환경변수
+.env
+*.env
+extra/
