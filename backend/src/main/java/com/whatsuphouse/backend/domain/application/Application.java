@@ -43,12 +43,10 @@ public class Application {
     @Column(name = "guest_phone")
     private String guestPhone;
 
-    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private Integer age;
 
-    @Enumerated(EnumType.STRING)
     private Job job;
 
     @Enumerated(EnumType.STRING)

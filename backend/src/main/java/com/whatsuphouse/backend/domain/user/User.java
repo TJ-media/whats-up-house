@@ -33,27 +33,26 @@ public class User {
     @Column(nullable = false, unique = true)
     private String nickname;
 
+    @Column(nullable = false)
+    private String password;
+
     private String bio;
 
-    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private Integer age;
 
-    @Enumerated(EnumType.STRING)
     private Job job;
 
     @Enumerated(EnumType.STRING)
     private Mbti mbti;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "animal_type")
     private AnimalType animalType;
 
     @Column(name = "animal_color")
     private String animalColor;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "animal_pose")
     private AnimalPose animalPose;
 
@@ -79,9 +78,10 @@ public class User {
     private LocalDateTime updatedAt;
 
     @Builder
-    public User(String email, String nickname) {
+    public User(String email, String nickname, String password) {
         this.email = email;
         this.nickname = nickname;
+        this.password = password;
     }
 
     public void updateProfile(String nickname, String bio, Gender gender, Integer age,
