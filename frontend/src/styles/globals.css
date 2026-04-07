@@ -1,0 +1,32 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #C8392B;
+  --color-primary-light: #FDECEA;
+  --color-background: #F5F0EB;
+  --color-card: #FFFFFF;
+  --color-tag-bg: #F0EBE8;
+  --color-tag-text: #5C4033;
+  --color-foreground: #171717;
+
+  --font-pretendard: 'Pretendard', sans-serif;
+
+  --radius-card: 16px;
+  --radius-button: 28px;
+  --radius-input: 8px;
+}
+
+body {
+  background-color: var(--color-background);
+  font-family: var(--font-pretendard);
+  color: var(--color-foreground);
+  max-width: 390px;
+  margin: 0 auto;
+}
+
+/* 관리자 페이지는 max-width 해제 */
+.admin-layout {
+  max-width: 100%;
+}
