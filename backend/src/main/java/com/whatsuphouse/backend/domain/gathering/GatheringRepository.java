@@ -11,6 +11,10 @@ import java.util.UUID;
 
 public interface GatheringRepository extends JpaRepository<Gathering, UUID> {
 
+    List<Gathering> findAllByOrderByDateAsc();
+
+    List<Gathering> findByStatus(GatheringStatus status);
+
     List<Gathering> findByDate(LocalDate date);
 
     List<Gathering> findByDateAndStatus(LocalDate date, GatheringStatus status);
