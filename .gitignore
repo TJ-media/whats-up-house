@@ -13,3 +13,6 @@
 .env
 *.env
 extra/
+
+# AI 코딩 가이드
+CLAUDE.md
