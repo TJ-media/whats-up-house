@@ -54,11 +54,9 @@ public class Application {
 
     private String intro;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "referral_source")
     private ReferralSource referralSource;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ApplicationStatus status = ApplicationStatus.PENDING;
 
