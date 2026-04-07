@@ -90,4 +90,12 @@ public class Application {
     public void cancel() {
         this.status = ApplicationStatus.CANCELLED;
     }
+
+    public void toPending() {
+        this.status = ApplicationStatus.PENDING;
+    }
+
+    public void toAttended() {
+        this.status = ApplicationStatus.ATTENDED;
+    }
 }

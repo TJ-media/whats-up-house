@@ -41,7 +41,6 @@ public class Location {
     @Column(columnDefinition = "text[]")
     private String[] features;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "contract_status", nullable = false)
     private ContractStatus contractStatus;
 

@@ -55,7 +55,6 @@ public class Gathering {
     @Column(nullable = false)
     private int capacity;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private GatheringStatus status;
 
