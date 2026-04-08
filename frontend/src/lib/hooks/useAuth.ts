@@ -14,8 +14,8 @@ export function useLogin() {
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       login(email, password),
     onSuccess: (data) => {
-      storeLogin(data.accessToken, data.userId, data.nickname, data.isAdmin)
-      if (data.isAdmin) {
+      storeLogin(data.accessToken, data.user.id, data.user.nickname, data.user.admin)
+      if (data.user.admin) {
         router.push('/admin')
       } else {
         router.push('/')

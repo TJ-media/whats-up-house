@@ -6,7 +6,7 @@ import { ArrowLeft } from 'lucide-react'
 import { Button, Input } from '@/components/ui'
 import { useRegister } from '@/lib/hooks/useAuth'
 import { useAuthStore } from '@/lib/store/authStore'
-import { checkNickname } from '@/lib/api/auth'
+import { checkNickname, login } from '@/lib/api/auth'
 import type { Gender } from '@/lib/api/types'
 
 const MBTI_ROWS = [
@@ -85,7 +85,7 @@ export default function OnboardingPage() {
     const step1 = JSON.parse(step1Raw) as { name: string; email: string; password: string }
 
     try {
-      const loginResponse = await registerMutation.mutateAsync({
+      await registerMutation.mutateAsync({
         name: step1.name,
         email: step1.email,
         password: step1.password,
@@ -98,8 +98,10 @@ export default function OnboardingPage() {
         interests: selectedInterests.length > 0 ? selectedInterests : undefined,
       })
 
+      // 회원가입은 토큰을 반환하지 않으므로 별도 로그인
+      const loginResponse = await login(step1.email, step1.password)
       sessionStorage.removeItem('register_step1')
-      storeLogin(loginResponse.accessToken, loginResponse.userId, loginResponse.nickname, loginResponse.isAdmin)
+      storeLogin(loginResponse.accessToken, loginResponse.user.id, loginResponse.user.nickname, loginResponse.user.admin)
       router.push('/')
     } catch {
       setFormError('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.')
