@@ -41,6 +41,24 @@ export interface LoginResponse {
   isAdmin: boolean
 }
 
+// 신청 관련 타입
+export type Gender = 'MALE' | 'FEMALE'
+export type ReferralSource = 'INSTAGRAM' | 'ACQUAINTANCE' | 'COMMUNITY' | 'OTHER'
+
+export interface GuestApplicationRequest {
+  name: string
+  phone: string
+  gender: Gender
+  age: number
+  mbti: string
+  referralSource: ReferralSource
+}
+
+export interface UserApplicationRequest {
+  introduction: string
+  referralSource: ReferralSource
+}
+
 export interface UserProfile {
   id: string
   email: string
