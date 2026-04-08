@@ -20,7 +20,6 @@ public class ApplicationRequest {
     @NotNull
     private Integer age;
 
-    @NotNull
     private Job job;
 
     private Mbti mbti;

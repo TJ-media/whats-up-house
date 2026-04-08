@@ -43,11 +43,11 @@ export interface LoginResponse {
 
 // 신청 관련 타입
 export type Gender = 'MALE' | 'FEMALE'
-export type ReferralSource = 'INSTAGRAM' | 'ACQUAINTANCE' | 'COMMUNITY' | 'OTHER'
+export type ReferralSource = 'INSTAGRAM' | 'FRIEND' | 'BLOG' | 'OTHER'
 
 export interface GuestApplicationRequest {
-  name: string
-  phone: string
+  guestName: string
+  guestPhone: string
   gender: Gender
   age: number
   mbti: string
@@ -55,7 +55,7 @@ export interface GuestApplicationRequest {
 }
 
 export interface UserApplicationRequest {
-  introduction: string
+  intro: string
   referralSource: ReferralSource
 }
 

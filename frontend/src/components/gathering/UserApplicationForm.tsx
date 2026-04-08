@@ -10,8 +10,8 @@ import type { GatheringDetail, ReferralSource } from '@/lib/api/types'
 
 const REFERRAL_OPTIONS: { value: ReferralSource; label: string }[] = [
   { value: 'INSTAGRAM', label: '인스타그램' },
-  { value: 'ACQUAINTANCE', label: '지인 추천' },
-  { value: 'COMMUNITY', label: '커뮤니티' },
+  { value: 'FRIEND', label: '지인 추천' },
+  { value: 'BLOG', label: '블로그/커뮤니티' },
   { value: 'OTHER', label: '기타' },
 ]
 
@@ -41,7 +41,7 @@ export default function UserApplicationForm({ gathering }: UserApplicationFormPr
       await submitMutation.mutateAsync({
         id: gathering.id,
         data: {
-          introduction: introduction || '',
+          intro: introduction || '',
           referralSource,
         },
       })
