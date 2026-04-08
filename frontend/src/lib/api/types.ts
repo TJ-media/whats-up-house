@@ -35,10 +35,34 @@ export interface GatheringDetail extends GatheringListItem {
 // 인증 타입
 export interface LoginResponse {
   accessToken: string
-  tokenType: string
-  userId: string
-  nickname: string
-  isAdmin: boolean
+  user: {
+    id: string
+    email: string
+    nickname: string
+    admin: boolean      // Java boolean isAdmin → Jackson serializes as "admin"
+    mileage: number
+    avatarUrl: string | null
+  }
+}
+
+// 회원가입 요청 타입
+export interface RegisterRequest {
+  name: string
+  email: string
+  password: string
+  nickname?: string
+  bio?: string
+  gender?: string
+  age?: number
+  job?: string
+  mbti?: string
+  animalType?: string
+  interests?: string[]
+}
+
+// 닉네임 중복 확인 응답
+export interface NicknameCheckResponse {
+  available: boolean
 }
 
 // 신청 관련 타입

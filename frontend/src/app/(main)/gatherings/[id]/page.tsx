@@ -61,7 +61,7 @@ export default function GatheringDetailPage({
   }
 
   return (
-    <div className="min-h-screen bg-background pb-[80px]">
+    <div className="min-h-screen bg-background pb-[72px]">
       {/* 상세 본문 */}
       <GatheringDetail gathering={gathering} />
 

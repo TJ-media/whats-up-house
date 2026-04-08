@@ -11,8 +11,16 @@ const navItems = [
   { href: '/mypage', icon: User, label: '마이' },
 ]
 
+// /gatherings/[id] 및 하위 경로(/apply, /apply/complete 등)에서 숨김
+// /gatherings 목록 페이지는 표시 유지
+const HIDDEN_PATTERNS = [/^\/gatherings\/[^/]+/]
+
 export default function BottomNav() {
   const pathname = usePathname()
+
+  if (HIDDEN_PATTERNS.some((pattern) => pattern.test(pathname))) {
+    return null
+  }
 
   return (
     <nav className="sticky bottom-0 bg-card border-t border-tag-bg">

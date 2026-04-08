@@ -1,8 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Share2, Calendar, Clock, MapPin, Users, CreditCard, AlertTriangle, Star } from 'lucide-react'
-import { Badge, Card } from '@/components/ui'
+import { ArrowLeft, Share2, Calendar, Clock, MapPin, Users, CreditCard, AlertTriangle } from 'lucide-react'
+import { Card } from '@/components/ui'
 import type { GatheringDetail as GatheringDetailType } from '@/lib/api/types'
 import dayjs from 'dayjs'
 
@@ -14,11 +14,11 @@ export default function GatheringDetail({ gathering }: GatheringDetailProps) {
   const router = useRouter()
 
   const {
-    title, date, startTime, endTime, locationName, locationAddress,
+    title, date, startTime, endTime, locationName,
     price, capacity, currentApplicants, thumbnailUrl,
-    status, moodTags, activityTags,
-    description, howToRun, photoUrls,
-    averageRating, reviewCount,
+    moodTags, activityTags,
+    description, howToRun,
+    reviewCount,
   } = gathering
 
   const formattedDate = dayjs(date).format('YYYY년 M월 D일 dddd')
