@@ -16,8 +16,8 @@ const MBTI_ROWS = [
 
 const REFERRAL_OPTIONS: { value: ReferralSource; label: string }[] = [
   { value: 'INSTAGRAM', label: '인스타그램' },
-  { value: 'ACQUAINTANCE', label: '지인 추천' },
-  { value: 'COMMUNITY', label: '커뮤니티' },
+  { value: 'FRIEND', label: '지인 추천' },
+  { value: 'BLOG', label: '블로그/커뮤니티' },
   { value: 'OTHER', label: '기타' },
 ]
 
@@ -96,8 +96,8 @@ export default function GuestApplicationForm({ gathering }: GuestApplicationForm
       await submitMutation.mutateAsync({
         id: gathering.id,
         data: {
-          name: formData.name,
-          phone: formData.phone,
+          guestName: formData.name,
+          guestPhone: formData.phone,
           gender,
           age,
           mbti: mbtiString,
