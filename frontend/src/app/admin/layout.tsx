@@ -1,41 +1,62 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, CalendarDays, Settings } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import {
+  LayoutDashboard, CalendarDays, MapPin, Users, LogOut,
+} from 'lucide-react'
+import { useAuthStore } from '@/lib/store/authStore'
 
 const sidebarItems = [
-  { href: '/admin', icon: LayoutDashboard, label: '대시보드' },
+  { href: '/admin', icon: LayoutDashboard, label: '대시보드', exact: true },
   { href: '/admin/gatherings', icon: CalendarDays, label: '게더링 관리' },
-  { href: '/admin/users', icon: Users, label: '유저 관리' },
-  { href: '/admin/settings', icon: Settings, label: '설정' },
+  { href: '/admin/locations', icon: MapPin, label: '장소 관리' },
+  { href: '/admin/users', icon: Users, label: '회원 관리' },
 ]
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
+  const { isLoggedIn, isAdmin, nickname, logout } = useAuthStore()
+
+  // 비관리자 접근 차단
+  useEffect(() => {
+    if (!isLoggedIn || !isAdmin) {
+      router.replace('/')
+    }
+  }, [isLoggedIn, isAdmin, router])
+
+  if (!isLoggedIn || !isAdmin) return null
+
+  const handleLogout = () => {
+    logout()
+    router.push('/')
+  }
 
   return (
-    <div className="admin-layout flex min-h-screen">
+    <div className="admin-layout flex min-h-screen bg-[#F8F5F2]">
       {/* 사이드바 */}
-      <aside className="w-60 bg-card border-r border-tag-bg p-4">
-        <h2 className="text-lg font-bold text-primary mb-6">관리자</h2>
-        <nav className="flex flex-col gap-2">
-          {sidebarItems.map((item) => {
-            const isActive = pathname === item.href
-            const Icon = item.icon
+      <aside className="w-60 bg-[#1A1A1A] flex flex-col min-h-screen shrink-0">
+        {/* 로고 */}
+        <div className="px-5 py-6 border-b border-white/10">
+          <h1 className="text-sm font-bold text-white/60 uppercase tracking-widest">The Curator&apos;s</h1>
+          <h2 className="text-lg font-bold text-primary">House</h2>
+        </div>
 
+        {/* 네비게이션 */}
+        <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
+          {sidebarItems.map((item) => {
+            const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href)
+            const Icon = item.icon
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2 rounded-input text-sm ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-input text-sm transition-colors ${
                   isActive
-                    ? 'bg-primary-light text-primary font-semibold'
-                    : 'text-tag-text hover:bg-tag-bg'
+                    ? 'bg-primary text-white font-semibold'
+                    : 'text-white/60 hover:bg-white/10 hover:text-white'
                 }`}
               >
                 <Icon size={18} />
@@ -44,10 +65,29 @@ export default function AdminLayout({
             )
           })}
         </nav>
+
+        {/* 하단 프로필 + 로그아웃 */}
+        <div className="px-3 py-4 border-t border-white/10">
+          <div className="flex items-center gap-3 px-3 py-2 mb-1">
+            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+              <span className="text-primary text-xs font-bold">
+                {nickname ? nickname[0] : 'A'}
+              </span>
+            </div>
+            <span className="text-sm text-white/80 font-medium">{nickname ?? '관리자'}</span>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-input text-sm text-white/50 hover:bg-white/10 hover:text-white transition-colors"
+          >
+            <LogOut size={18} />
+            <span>로그아웃</span>
+          </button>
+        </div>
       </aside>
 
-      {/* 콘텐츠 영역 */}
-      <main className="flex-1 p-6">{children}</main>
+      {/* 콘텐츠 */}
+      <main className="flex-1 min-w-0 p-8">{children}</main>
     </div>
   )
 }

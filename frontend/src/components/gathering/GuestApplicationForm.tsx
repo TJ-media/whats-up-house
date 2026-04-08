@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+
 import { AlertTriangle } from 'lucide-react'
 import { Button, Input, Card } from '@/components/ui'
 import { useSubmitGuestApplication } from '@/lib/hooks/useGatherings'
