@@ -22,7 +22,7 @@ public enum ErrorCode {
     // Gathering
     GATHERING_NOT_FOUND("존재하지 않는 게더링입니다.", HttpStatus.NOT_FOUND),
     GATHERING_FULL("게더링 정원이 초과되었습니다.", HttpStatus.BAD_REQUEST),
-    GATHERING_NOT_OPEN("신청 가능한 상태의 게더링이 아닙니다.", HttpStatus.BAD_REQUEST),
+    GATHERING_NOT_RECRUITING("모집중인 게더링이 아닙니다.", HttpStatus.BAD_REQUEST),
 
     // Application
     APPLICATION_NOT_FOUND("존재하지 않는 신청입니다.", HttpStatus.NOT_FOUND),
