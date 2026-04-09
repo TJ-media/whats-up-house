@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { login, register, checkNickname } from '@/lib/api/auth'
+import { login, register, checkNickname, fetchMyProfile } from '@/lib/api/auth'
 import { useAuthStore } from '@/lib/store/authStore'
 import { useRouter } from 'next/navigation'
 import type { RegisterRequest } from '@/lib/api/types'
@@ -31,6 +31,16 @@ export function useCheckNickname(nickname: string) {
     queryKey: ['nickname-check', nickname],
     queryFn: () => checkNickname(nickname),
     enabled: nickname.length >= 2,
-    staleTime: 1000 * 10, // 10초
+    staleTime: 1000 * 10,
+  })
+}
+
+export function useMyProfile() {
+  const { isLoggedIn } = useAuthStore()
+  return useQuery({
+    queryKey: ['my-profile'],
+    queryFn: fetchMyProfile,
+    enabled: isLoggedIn,
+    staleTime: 1000 * 60 * 5, // 5분
   })
 }

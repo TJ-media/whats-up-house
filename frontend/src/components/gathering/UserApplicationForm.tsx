@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckCircle } from 'lucide-react'
-import { Button, Card } from '@/components/ui'
+import { Button, Card, LoadingSpinner } from '@/components/ui'
 import { useSubmitUserApplication } from '@/lib/hooks/useGatherings'
-import { useAuthStore } from '@/lib/store/authStore'
+import { useMyProfile } from '@/lib/hooks/useAuth'
 import type { GatheringDetail, ReferralSource } from '@/lib/api/types'
 
 const REFERRAL_OPTIONS: { value: ReferralSource; label: string }[] = [
@@ -15,6 +15,19 @@ const REFERRAL_OPTIONS: { value: ReferralSource; label: string }[] = [
   { value: 'OTHER', label: '기타' },
 ]
 
+const GENDER_LABEL: Record<string, string> = {
+  MALE: '남성',
+  FEMALE: '여성',
+  NONE: '선택 안함',
+}
+
+const JOB_LABEL: Record<string, string> = {
+  STUDENT: '대학생',
+  WORKER: '직장인',
+  FREELANCER: '프리랜서',
+  OTHER: '기타',
+}
+
 interface UserApplicationFormProps {
   gathering: GatheringDetail
 }
@@ -22,7 +35,7 @@ interface UserApplicationFormProps {
 export default function UserApplicationForm({ gathering }: UserApplicationFormProps) {
   const router = useRouter()
   const submitMutation = useSubmitUserApplication()
-  const { nickname } = useAuthStore()
+  const { data: profile, isLoading: profileLoading } = useMyProfile()
 
   const [introduction, setIntroduction] = useState('')
   const [referralSource, setReferralSource] = useState<ReferralSource | null>(null)
@@ -51,6 +64,11 @@ export default function UserApplicationForm({ gathering }: UserApplicationFormPr
     }
   }
 
+  const genderAge = [
+    profile?.gender ? GENDER_LABEL[profile.gender] ?? profile.gender : null,
+    profile?.age ? `${profile.age}세` : null,
+  ].filter(Boolean).join(' / ') || '미입력'
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       {/* 신청 정보 확인 */}
@@ -61,33 +79,42 @@ export default function UserApplicationForm({ gathering }: UserApplicationFormPr
         </div>
 
         <Card className="p-5 border border-tag-bg/50">
-          <div className="flex flex-col items-center mb-4">
-            {/* 아바타 플레이스홀더 */}
-            <div className="w-16 h-16 rounded-full bg-tag-bg mb-2 flex items-center justify-center">
-              <span className="text-2xl">🌿</span>
+          {profileLoading ? (
+            <div className="flex justify-center py-6">
+              <LoadingSpinner size="sm" />
             </div>
-            <p className="text-xs text-tag-text">신청자</p>
-            <p className="text-lg font-bold text-foreground">{nickname ?? '회원'}</p>
-          </div>
+          ) : (
+            <>
+              <div className="flex flex-col items-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-tag-bg mb-2 flex items-center justify-center">
+                  <span className="text-2xl">🌿</span>
+                </div>
+                <p className="text-xs text-tag-text">신청자</p>
+                <p className="text-lg font-bold text-foreground">{profile?.nickname ?? '회원'}</p>
+              </div>
 
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <p className="text-xs text-tag-text mb-1">연락처</p>
-              <p className="font-medium text-foreground">-</p>
-            </div>
-            <div>
-              <p className="text-xs text-tag-text mb-1">성별/나이</p>
-              <p className="font-medium text-foreground">-</p>
-            </div>
-            <div>
-              <p className="text-xs text-tag-text mb-1">직업</p>
-              <p className="font-medium text-foreground">-</p>
-            </div>
-            <div>
-              <p className="text-xs text-tag-text mb-1">MBTI</p>
-              <p className="font-medium text-foreground">-</p>
-            </div>
-          </div>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-xs text-tag-text mb-1">이메일</p>
+                  <p className="font-medium text-foreground">{profile?.email ?? '미입력'}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-tag-text mb-1">성별/나이</p>
+                  <p className="font-medium text-foreground">{genderAge}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-tag-text mb-1">직업</p>
+                  <p className="font-medium text-foreground">
+                    {profile?.job ? (JOB_LABEL[profile.job] ?? profile.job) : '미입력'}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-tag-text mb-1">MBTI</p>
+                  <p className="font-medium text-foreground">{profile?.mbti ?? '미입력'}</p>
+                </div>
+              </div>
+            </>
+          )}
 
           <button
             type="button"
@@ -129,9 +156,7 @@ export default function UserApplicationForm({ gathering }: UserApplicationFormPr
               }`}
             >
               <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                referralSource === option.value
-                  ? 'border-primary'
-                  : 'border-tag-bg'
+                referralSource === option.value ? 'border-primary' : 'border-tag-bg'
               }`}>
                 {referralSource === option.value && (
                   <div className="w-2 h-2 rounded-full bg-primary" />
@@ -162,10 +187,10 @@ export default function UserApplicationForm({ gathering }: UserApplicationFormPr
           type="submit"
           variant="primary"
           size="lg"
-          className="w-full flex items-center justify-center gap-2"
+          className="w-full"
           isLoading={submitMutation.isPending}
         >
-          신청 완료하기 ▶
+          신청 완료하기
         </Button>
       </div>
     </form>
