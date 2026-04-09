@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   // hydration 완료 후 비관리자 접근 차단
   useEffect(() => {
     if (!hydrated) return
-    if (!isLoggedIn) router.replace('/login')
+    if (!isLoggedIn) router.replace('/login?returnUrl=/admin')
     else if (!isAdmin) router.replace('/')
   }, [hydrated, isLoggedIn, isAdmin, router])
 
