@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import {
-  LayoutDashboard, CalendarDays, MapPin, Users, LogOut,
+  LayoutDashboard, CalendarDays, MapPin, Users, LogOut, ClipboardList,
 } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/authStore'
 import { useHydration } from '@/lib/hooks/useHydration'
@@ -14,6 +14,7 @@ const sidebarItems = [
   { href: '/admin/gatherings', icon: CalendarDays, label: '게더링 관리' },
   { href: '/admin/locations', icon: MapPin, label: '장소 관리' },
   { href: '/admin/users', icon: Users, label: '회원 관리' },
+  { href: '/admin/applications', icon: ClipboardList, label: '참가자 관리' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
