@@ -37,7 +37,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="admin-layout flex min-h-screen bg-[#F8F5F2]">
+    <div className="flex min-h-screen bg-[#F8F5F2]">
       {/* 사이드바 */}
       <aside className="w-60 bg-[#1A1A1A] flex flex-col min-h-screen shrink-0">
         {/* 로고 */}
