@@ -26,4 +26,8 @@ public interface GatheringRepository extends JpaRepository<Gathering, UUID> {
     List<LocalDate> findDistinctDatesByMonth(@Param("start") LocalDate start, @Param("end") LocalDate end);
 
     long countByDateBetween(LocalDate start, LocalDate end);
+
+    List<Gathering> findByDateBetweenOrderByDateAscStartTimeAsc(LocalDate start, LocalDate end);
+
+    List<Gathering> findByDateGreaterThanEqualOrderByDateAscStartTimeAsc(LocalDate date);
 }
