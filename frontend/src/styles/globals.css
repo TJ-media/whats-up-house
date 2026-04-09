@@ -22,13 +22,12 @@ body {
   background-color: var(--color-background);
   font-family: var(--font-pretendard);
   color: var(--color-foreground);
-  max-width: 390px;
-  margin: 0 auto;
 }
 
-/* 관리자 페이지는 max-width 해제 */
-.admin-layout {
-  max-width: 100%;
+/* 모바일 페이지 레이아웃 */
+.mobile-layout {
+  max-width: 390px;
+  margin: 0 auto;
 }
 
 /* 바텀시트 슬라이드업 애니메이션 */

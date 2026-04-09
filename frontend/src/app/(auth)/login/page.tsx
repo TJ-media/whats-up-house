@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { Eye, EyeOff } from 'lucide-react'
 import { Button, Input } from '@/components/ui'
@@ -12,9 +13,11 @@ interface FormValues {
   password: string
 }
 
-export default function LoginPage() {
+function LoginForm() {
+  const searchParams = useSearchParams()
+  const returnUrl = searchParams.get('returnUrl') ?? '/'
   const [showPassword, setShowPassword] = useState(false)
-  const loginMutation = useLogin()
+  const loginMutation = useLogin(returnUrl)
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
 
@@ -108,5 +111,13 @@ export default function LoginPage() {
         </Link>
       </p>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   )
 }

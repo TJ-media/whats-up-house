@@ -47,10 +47,9 @@ export interface LoginResponse {
 
 // 회원가입 요청 타입
 export interface RegisterRequest {
-  name: string
   email: string
   password: string
-  nickname?: string
+  nickname: string
   bio?: string
   gender?: string
   age?: number
@@ -58,6 +57,7 @@ export interface RegisterRequest {
   mbti?: string
   animalType?: string
   interests?: string[]
+  avatarUrl?: string
 }
 
 // 닉네임 중복 확인 응답
@@ -79,6 +79,10 @@ export interface GuestApplicationRequest {
 }
 
 export interface UserApplicationRequest {
+  gender: Gender
+  age: number
+  job?: string
+  mbti?: string
   intro: string
   referralSource: ReferralSource
 }
