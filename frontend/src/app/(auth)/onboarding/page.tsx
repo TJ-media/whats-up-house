@@ -48,7 +48,7 @@ export default function OnboardingPage() {
     setFormError(null)
     try {
       const result = await checkNickname(nickname)
-      setNicknameStatus(result.available ? 'available' : 'taken')
+      setNicknameStatus(result ? 'available' : 'taken')
     } catch {
       setNicknameStatus('idle')
       setFormError('닉네임 확인 중 오류가 발생했습니다.')
