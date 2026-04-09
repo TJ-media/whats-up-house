@@ -66,6 +66,9 @@ public class User {
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin = false;
 
+    @Column(name = "is_suspended", nullable = false)
+    private boolean isSuspended = false;
+
     @Column(name = "avatar_url")
     private String avatarUrl;
 
@@ -109,5 +112,13 @@ public class User {
             throw new CustomException(ErrorCode.MILEAGE_NOT_ENOUGH);
         }
         this.mileage -= amount;
+    }
+
+    public void suspend() {
+        this.isSuspended = true;
+    }
+
+    public void activate() {
+        this.isSuspended = false;
     }
 }

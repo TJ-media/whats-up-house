@@ -22,4 +22,8 @@ public interface ApplicationRepository extends JpaRepository<Application, UUID> 
     List<Application> findTop20ByOrderByCreatedAtDesc();
 
     int countByGatheringIdAndStatus(UUID gatheringId, ApplicationStatus status);
+
+    long countByUserIdAndStatusNot(UUID userId, ApplicationStatus status);
+
+    List<Application> findByUserIdOrderByCreatedAtDesc(UUID userId);
 }
