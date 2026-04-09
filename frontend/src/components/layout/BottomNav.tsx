@@ -1,18 +1,39 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { Home, Users, User, Compass } from 'lucide-react'
 import { useRequireAuth } from '@/lib/hooks/useRequireAuth'
+import { useMyProfile } from '@/lib/hooks/useAuth'
+import { getAnimalEmoji } from '@/lib/utils/animalProfile'
 
 // /gatherings/[id] 및 하위 경로(/apply, /apply/complete 등)에서 숨김
-// /gatherings 목록 페이지는 표시 유지
 const HIDDEN_PATTERNS = [/^\/gatherings\/[^/]+/]
+
+function MyTabIcon({ avatarUrl, animalType }: { avatarUrl?: string | null; animalType?: string | null }) {
+  if (avatarUrl) {
+    return (
+      <Image
+        src={avatarUrl}
+        alt="프로필"
+        width={24}
+        height={24}
+        className="rounded-full object-cover"
+      />
+    )
+  }
+  if (animalType) {
+    return <span className="text-lg leading-none">{getAnimalEmoji(animalType)}</span>
+  }
+  return <User size={20} />
+}
 
 export default function BottomNav() {
   const pathname = usePathname()
   const router = useRouter()
-  const { requireAuth } = useRequireAuth()
+  const { isLoggedIn, requireAuth } = useRequireAuth()
+  const { data: profile } = useMyProfile()
 
   if (HIDDEN_PATTERNS.some((pattern) => pattern.test(pathname))) {
     return null
@@ -46,7 +67,11 @@ export default function BottomNav() {
                   isActive ? 'text-primary' : 'text-tag-text'
                 }`}
               >
-                <Icon size={20} />
+                {isLoggedIn ? (
+                  <MyTabIcon avatarUrl={profile?.avatarUrl} animalType={profile?.animalType} />
+                ) : (
+                  <Icon size={20} />
+                )}
                 <span>{item.label}</span>
               </button>
             )
