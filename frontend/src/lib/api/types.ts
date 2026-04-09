@@ -45,10 +45,11 @@ export interface LoginResponse {
   }
 }
 
-// 회원가입 요청 타입
 export interface RegisterRequest {
   email: string
   password: string
+  name: string
+  phone: string
   nickname: string
   bio?: string
   gender?: string
@@ -60,18 +61,13 @@ export interface RegisterRequest {
   avatarUrl?: string
 }
 
-// 닉네임 중복 확인 응답
-export interface NicknameCheckResponse {
-  available: boolean
-}
-
 // 신청 관련 타입
 export type Gender = 'MALE' | 'FEMALE'
 export type ReferralSource = 'INSTAGRAM' | 'FRIEND' | 'BLOG' | 'OTHER'
 
 export interface GuestApplicationRequest {
-  guestName: string
-  guestPhone: string
+  applicantName: string
+  applicantPhone: string
   gender: Gender
   age: number
   mbti: string
@@ -91,6 +87,8 @@ export interface UserProfile {
   id: string
   email: string
   nickname: string
+  name: string | null
+  phone: string | null
   bio: string | null
   gender: string | null
   age: number | null

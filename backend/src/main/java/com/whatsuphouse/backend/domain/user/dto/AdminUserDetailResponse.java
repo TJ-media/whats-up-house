@@ -17,6 +17,8 @@ public class AdminUserDetailResponse {
 
     private UUID id;
     private String nickname;
+    private String name;
+    private String phone;
     private String email;
     private String bio;
     private String gender;
@@ -43,6 +45,8 @@ public class AdminUserDetailResponse {
         return AdminUserDetailResponse.builder()
                 .id(user.getId())
                 .nickname(user.getNickname())
+                .name(user.getName())
+                .phone(user.getPhone())
                 .email(user.getEmail())
                 .bio(user.getBio())
                 .gender(user.getGender() != null ? user.getGender().name() : null)

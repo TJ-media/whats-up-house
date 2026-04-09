@@ -33,6 +33,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String nickname;
 
+    private String name;
+
+    private String phone;
+
     @Column(nullable = false)
     private String password;
 
@@ -81,16 +85,20 @@ public class User {
     private LocalDateTime updatedAt;
 
     @Builder
-    public User(String email, String nickname, String password) {
+    public User(String email, String nickname, String password, String name, String phone) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
+        this.name = name;
+        this.phone = phone;
     }
 
-    public void updateProfile(String nickname, String bio, Gender gender, Integer age,
+    public void updateProfile(String nickname, String name, String phone, String bio, Gender gender, Integer age,
                                Job job, Mbti mbti, AnimalType animalType, String animalColor,
                                AnimalPose animalPose, String[] interests, String avatarUrl) {
         this.nickname = nickname;
+        this.name = name;
+        this.phone = phone;
         this.bio = bio;
         this.gender = gender;
         this.age = age;

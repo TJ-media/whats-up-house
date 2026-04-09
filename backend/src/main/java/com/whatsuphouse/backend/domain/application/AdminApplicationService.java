@@ -45,8 +45,8 @@ public class AdminApplicationService {
 
         Application application = Application.builder()
                 .gathering(gathering)
-                .guestName(request.getGuestName())
-                .guestPhone(request.getGuestPhone())
+                .applicantName(request.getApplicantName())
+                .applicantPhone(request.getApplicantPhone())
                 .gender(request.getGender())
                 .age(request.getAge())
                 .job(request.getJob())

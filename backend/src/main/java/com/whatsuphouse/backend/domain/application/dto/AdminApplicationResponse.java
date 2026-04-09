@@ -30,14 +30,10 @@ public class AdminApplicationResponse {
     private boolean isGuest;
 
     public static AdminApplicationResponse from(Application application) {
-        boolean isGuest = application.getUser() == null;
-        String name = isGuest ? application.getGuestName()
-                              : application.getUser().getNickname();
-
         return AdminApplicationResponse.builder()
                 .id(application.getId())
-                .name(name)
-                .phone(application.getGuestPhone())
+                .name(application.getApplicantName())
+                .phone(application.getApplicantPhone())
                 .gender(application.getGender())
                 .age(application.getAge())
                 .job(application.getJob())
@@ -46,7 +42,7 @@ public class AdminApplicationResponse {
                 .referralSource(application.getReferralSource())
                 .status(application.getStatus())
                 .createdAt(application.getCreatedAt())
-                .isGuest(isGuest)
+                .isGuest(application.getUser() == null)
                 .build();
     }
 }

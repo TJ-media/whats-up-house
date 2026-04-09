@@ -10,6 +10,9 @@ public class ProfileUpdateRequest {
     @NotBlank
     private String nickname;
 
+    private String name;
+    private String phone;
+
     private String bio;
     private Gender gender;
     private Integer age;

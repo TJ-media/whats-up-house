@@ -11,8 +11,8 @@ import lombok.Getter;
 public class ApplicationRequest {
 
     // 비로그인 전용
-    private String guestName;
-    private String guestPhone;
+    private String applicantName;
+    private String applicantPhone;
 
     @NotNull
     private Gender gender;

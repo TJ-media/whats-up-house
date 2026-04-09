@@ -79,25 +79,27 @@ export default function AdminUsersPage() {
           <table className="w-full">
             <thead>
               <tr className="bg-[#F5F5F5] text-xs text-[#767676] uppercase">
-                {['닉네임', '이메일', '성별/나이', '직업', 'MBTI', '신청수', '마일리지', '상태', '상세'].map((col) => (
+                {['이름', '닉네임', '연락처', '이메일', '성별/나이', '직업', 'MBTI', '신청수', '마일리지', '상태', '상세'].map((col) => (
                   <th key={col} className="px-4 py-3 text-left font-medium">{col}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {isLoading && (
-                <tr><td colSpan={9} className="py-12 text-center"><LoadingSpinner /></td></tr>
+                <tr><td colSpan={11} className="py-12 text-center"><LoadingSpinner /></td></tr>
               )}
               {!isLoading && users.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="py-12 text-center text-sm text-[#767676]">
+                  <td colSpan={11} className="py-12 text-center text-sm text-[#767676]">
                     {keyword ? `"${keyword}" 검색 결과가 없습니다.` : '등록된 회원이 없습니다.'}
                   </td>
                 </tr>
               )}
               {users.map((u) => (
                 <tr key={u.id} className="border-t border-[#F0EBE8] hover:bg-[#F5F0EB] transition-colors">
-                  <td className="px-4 py-3 font-medium text-[14px]">{u.nickname}</td>
+                  <td className="px-4 py-3 font-medium text-[14px]">{u.name ?? '-'}</td>
+                  <td className="px-4 py-3 text-[13px] text-[#767676]">{u.nickname}</td>
+                  <td className="px-4 py-3 text-[13px] text-[#767676] whitespace-nowrap">{u.phone ?? '-'}</td>
                   <td className="px-4 py-3 text-[13px] text-[#767676] max-w-[160px] truncate">{u.email}</td>
                   <td className="px-4 py-3 text-[13px] text-[#767676]">
                     {GENDER_LABEL[u.gender ?? ''] ?? '-'} / {u.age ? `${u.age}세` : '-'}

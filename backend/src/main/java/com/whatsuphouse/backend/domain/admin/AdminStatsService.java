@@ -51,8 +51,7 @@ public class AdminStatsService {
                 .stream()
                 .map(app -> RecentActivityResponse.builder()
                         .type(app.getStatus().name())
-                        .userNickname(app.getUser() != null
-                                ? app.getUser().getNickname() : app.getGuestName())
+                        .userNickname(app.getApplicantName())
                         .gatheringTitle(app.getGathering().getTitle())
                         .createdAt(app.getCreatedAt())
                         .build())

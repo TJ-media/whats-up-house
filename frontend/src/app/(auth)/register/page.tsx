@@ -8,6 +8,7 @@ import { Button, Input } from '@/components/ui'
 
 interface FormValues {
   name: string
+  phone: string
   email: string
   password: string
   passwordConfirm: string
@@ -61,6 +62,7 @@ export default function RegisterPage() {
     // Step 1 데이터를 sessionStorage에 저장 후 온보딩으로 이동
     sessionStorage.setItem('register_step1', JSON.stringify({
       name: data.name,
+      phone: data.phone,
       email: data.email,
       password: data.password,
     }))
@@ -99,6 +101,14 @@ export default function RegisterPage() {
             placeholder="이름을 입력해주세요"
             {...register('name', { required: '이름을 입력해주세요' })}
             error={errors.name?.message}
+          />
+
+          {/* 연락처 */}
+          <Input
+            label="연락처 *"
+            placeholder="010-0000-0000"
+            {...register('phone', { required: '연락처를 입력해주세요' })}
+            error={errors.phone?.message}
           />
 
           {/* 이메일 */}

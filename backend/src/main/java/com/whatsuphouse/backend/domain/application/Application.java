@@ -37,11 +37,11 @@ public class Application {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "guest_name")
-    private String guestName;
+    @Column(name = "applicant_name")
+    private String applicantName;
 
-    @Column(name = "guest_phone")
-    private String guestPhone;
+    @Column(name = "applicant_phone")
+    private String applicantPhone;
 
     private Gender gender;
 
@@ -69,13 +69,13 @@ public class Application {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Application(Gathering gathering, User user, String guestName, String guestPhone,
+    public Application(Gathering gathering, User user, String applicantName, String applicantPhone,
                        Gender gender, Integer age, Job job, Mbti mbti, String intro,
                        ReferralSource referralSource) {
         this.gathering = gathering;
         this.user = user;
-        this.guestName = guestName;
-        this.guestPhone = guestPhone;
+        this.applicantName = applicantName;
+        this.applicantPhone = applicantPhone;
         this.gender = gender;
         this.age = age;
         this.job = job;

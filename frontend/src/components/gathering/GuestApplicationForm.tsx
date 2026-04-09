@@ -96,8 +96,8 @@ export default function GuestApplicationForm({ gathering }: GuestApplicationForm
       await submitMutation.mutateAsync({
         id: gathering.id,
         data: {
-          guestName: formData.name,
-          guestPhone: formData.phone,
+          applicantName: formData.name,
+          applicantPhone: formData.phone,
           gender,
           age,
           mbti: mbtiString,

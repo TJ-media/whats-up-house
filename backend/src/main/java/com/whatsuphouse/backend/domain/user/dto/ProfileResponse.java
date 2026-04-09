@@ -14,6 +14,8 @@ public class ProfileResponse {
     private UUID id;
     private String email;
     private String nickname;
+    private String name;
+    private String phone;
     private String bio;
     private Gender gender;
     private Integer age;
@@ -32,6 +34,8 @@ public class ProfileResponse {
                 .id(user.getId())
                 .email(user.getEmail())
                 .nickname(user.getNickname())
+                .name(user.getName())
+                .phone(user.getPhone())
                 .bio(user.getBio())
                 .gender(user.getGender())
                 .age(user.getAge())

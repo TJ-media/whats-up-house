@@ -40,6 +40,8 @@ public class ApplicationService {
         Application application = Application.builder()
                 .gathering(gathering)
                 .user(user)
+                .applicantName(user.getName())
+                .applicantPhone(user.getPhone())
                 .gender(request.getGender())
                 .age(request.getAge())
                 .job(request.getJob())
@@ -56,14 +58,14 @@ public class ApplicationService {
         int currentCount = applicationRepository.countByGatheringIdAndStatusNot(gatheringId, ApplicationStatus.CANCELLED);
         validateGathering(gathering, currentCount);
 
-        if (applicationRepository.existsByGatheringIdAndGuestPhone(gatheringId, request.getGuestPhone())) {
+        if (applicationRepository.existsByGatheringIdAndApplicantPhone(gatheringId, request.getApplicantPhone())) {
             throw new CustomException(ErrorCode.ALREADY_APPLIED);
         }
 
         Application application = Application.builder()
                 .gathering(gathering)
-                .guestName(request.getGuestName())
-                .guestPhone(request.getGuestPhone())
+                .applicantName(request.getApplicantName())
+                .applicantPhone(request.getApplicantPhone())
                 .gender(request.getGender())
                 .age(request.getAge())
                 .job(request.getJob())

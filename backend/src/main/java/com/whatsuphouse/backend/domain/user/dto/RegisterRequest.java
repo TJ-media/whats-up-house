@@ -19,6 +19,12 @@ public class RegisterRequest {
     @NotBlank
     private String nickname;
 
+    @NotBlank
+    private String name;
+
+    @NotBlank
+    private String phone;
+
     // 온보딩 (선택)
     private String bio;
     private Gender gender;

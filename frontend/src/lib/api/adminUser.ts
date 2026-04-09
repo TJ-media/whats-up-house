@@ -4,6 +4,8 @@ import type { ApiResponse } from './types'
 export interface AdminUserListItem {
   id: string
   nickname: string
+  name: string | null
+  phone: string | null
   email: string
   gender: string | null
   age: number | null

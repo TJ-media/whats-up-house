@@ -90,12 +90,14 @@ export default function OnboardingPage() {
       router.push('/register')
       return
     }
-    const step1 = JSON.parse(step1Raw) as { name: string; email: string; password: string }
+    const step1 = JSON.parse(step1Raw) as { name: string; phone: string; email: string; password: string }
 
     try {
       await registerMutation.mutateAsync({
         email: step1.email,
         password: step1.password,
+        name: step1.name,
+        phone: step1.phone,
         nickname,
         bio: bio || undefined,
         gender: gender ?? undefined,
