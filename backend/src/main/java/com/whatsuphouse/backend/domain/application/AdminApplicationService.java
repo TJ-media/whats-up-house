@@ -24,7 +24,7 @@ public class AdminApplicationService {
 
     @Transactional(readOnly = true)
     public List<AdminApplicationResponse> getApplications(UUID gatheringId) {
-        return applicationRepository.findByGatheringId(gatheringId).stream()
+        return applicationRepository.findActiveByGatheringIdWithUser(gatheringId).stream()
                 .map(AdminApplicationResponse::from)
                 .toList();
     }

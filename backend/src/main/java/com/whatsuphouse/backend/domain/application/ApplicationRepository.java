@@ -11,6 +11,11 @@ public interface ApplicationRepository extends JpaRepository<Application, UUID> 
 
     List<Application> findByGatheringId(UUID gatheringId);
 
+    @org.springframework.data.jpa.repository.Query(
+        "SELECT a FROM Application a LEFT JOIN FETCH a.user WHERE a.gathering.id = :gatheringId AND a.status <> 'CANCELLED' ORDER BY a.createdAt ASC"
+    )
+    List<Application> findActiveByGatheringIdWithUser(@org.springframework.data.repository.query.Param("gatheringId") UUID gatheringId);
+
     boolean existsByGatheringIdAndUserId(UUID gatheringId, UUID userId);
 
     boolean existsByGatheringIdAndGuestPhone(UUID gatheringId, String guestPhone);
