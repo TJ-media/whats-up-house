@@ -26,7 +26,7 @@ public class AdminUserController {
     @Operation(summary = "회원 목록 조회 (keyword: 닉네임/이메일 검색)")
     public ApiResponse<Page<AdminUserListResponse>> getUsers(
             @RequestParam(required = false) String keyword,
-            @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return ApiResponse.success(adminUserService.getUsers(keyword, pageable));
     }
 

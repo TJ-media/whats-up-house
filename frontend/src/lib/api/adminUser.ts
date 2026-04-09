@@ -41,7 +41,7 @@ export interface AdminUserPage {
 }
 
 export const adminUserApi = {
-  getUsers: async (keyword?: string, page = 0, size = 20): Promise<AdminUserPage> => {
+  getUsers: async (keyword?: string, page = 0, size = 10): Promise<AdminUserPage> => {
     const params = new URLSearchParams()
     if (keyword) params.append('keyword', keyword)
     params.append('page', String(page))

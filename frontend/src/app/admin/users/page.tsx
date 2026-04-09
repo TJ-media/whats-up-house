@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { adminUserApi, AdminUserListItem } from '@/lib/api/adminUser'
 import { UserDetailPanel } from '@/components/admin/UserDetailPanel'
-import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import { LoadingSpinner, Pagination } from '@/components/ui'
 import { useForm } from 'react-hook-form'
 
 const GENDER_LABEL: Record<string, string> = { MALE: '남', FEMALE: '여', NONE: '-' }
@@ -21,17 +21,19 @@ export default function AdminUsersPage() {
   const queryClient = useQueryClient()
   const [keyword, setKeyword] = useState('')
   const [searchInput, setSearchInput] = useState('')
+  const [page, setPage] = useState(0)
   const [selectedUser, setSelectedUser] = useState<AdminUserListItem | null>(null)
 
   const { data, isLoading } = useQuery({
-    queryKey: ['admin', 'users', keyword],
-    queryFn: () => adminUserApi.getUsers(keyword || undefined),
+    queryKey: ['admin', 'users', keyword, page],
+    queryFn: () => adminUserApi.getUsers(keyword || undefined, page),
   })
 
   const users: AdminUserListItem[] = data?.content ?? []
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
+    setPage(0)
     setKeyword(searchInput)
   }
 
@@ -66,7 +68,7 @@ export default function AdminUsersPage() {
           {keyword && (
             <button
               type="button"
-              onClick={() => { setKeyword(''); setSearchInput('') }}
+              onClick={() => { setKeyword(''); setSearchInput(''); setPage(0) }}
               className="px-4 h-11 border border-[#E0E0E0] text-[#767676] rounded-[12px] text-sm hover:border-primary transition-colors"
             >
               초기화
@@ -135,6 +137,12 @@ export default function AdminUsersPage() {
             </tbody>
           </table>
         </div>
+
+        <Pagination
+          currentPage={page}
+          totalPages={data?.totalPages ?? 0}
+          onPageChange={setPage}
+        />
       </div>
 
       {/* 회원 상세 패널 */}

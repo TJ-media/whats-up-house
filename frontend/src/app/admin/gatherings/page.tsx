@@ -4,8 +4,10 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { adminGatheringApi, AdminGatheringListItem } from '@/lib/api/adminGathering'
 import { GatheringFormPanel } from '@/components/admin/GatheringFormPanel'
-import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import { LoadingSpinner, Pagination } from '@/components/ui'
 import dayjs from 'dayjs'
+
+const PAGE_SIZE = 10
 
 const STATUS_OPTIONS = ['전체', 'RECRUITING', 'CLOSED', 'COMPLETED', 'CANCELLED']
 const STATUS_LABEL: Record<string, string> = {
@@ -25,14 +27,18 @@ const STATUS_STYLE: Record<string, string> = {
 export default function AdminGatheringsPage() {
   const queryClient = useQueryClient()
   const [statusFilter, setStatusFilter] = useState('전체')
+  const [page, setPage] = useState(0)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   const [editingGathering, setEditingGathering] = useState<AdminGatheringListItem | null>(null)
 
-  const { data: gatherings = [], isLoading } = useQuery({
+  const { data: allGatherings = [], isLoading } = useQuery({
     queryKey: ['admin', 'gatherings', statusFilter],
     queryFn: () =>
       adminGatheringApi.getAll(statusFilter === '전체' ? undefined : statusFilter),
   })
+
+  const totalPages = Math.ceil(allGatherings.length / PAGE_SIZE)
+  const gatherings = allGatherings.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
 
   const { mutate: deleteGathering } = useMutation({
     mutationFn: adminGatheringApi.delete,
@@ -76,7 +82,7 @@ export default function AdminGatheringsPage() {
             <button
               key={s}
               id={`filter-status-${s}`}
-              onClick={() => setStatusFilter(s)}
+              onClick={() => { setStatusFilter(s); setPage(0) }}
               className={`
                 px-4 h-9 rounded-full text-sm font-medium transition-all
                 ${statusFilter === s
@@ -176,6 +182,12 @@ export default function AdminGatheringsPage() {
             </tbody>
           </table>
         </div>
+
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       </div>
 
       {/* 사이드 패널 */}
