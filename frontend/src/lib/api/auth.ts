@@ -21,6 +21,12 @@ export const register = async (data: RegisterRequest): Promise<UserProfile> => {
   return response.data.data
 }
 
+// 내 프로필 조회
+export const fetchMyProfile = async (): Promise<UserProfile> => {
+  const response = await apiClient.get<ApiResponse<UserProfile>>('/api/users/me')
+  return response.data.data
+}
+
 // 닉네임 중복 확인
 export const checkNickname = async (nickname: string): Promise<NicknameCheckResponse> => {
   const response = await apiClient.get<ApiResponse<NicknameCheckResponse>>(

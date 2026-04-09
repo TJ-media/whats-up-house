@@ -3,7 +3,7 @@
 import { useState, use } from 'react'
 import { useRouter } from 'next/navigation'
 import { useGatheringDetail } from '@/lib/hooks/useGatherings'
-import { useAuthStore } from '@/lib/store/authStore'
+import { useRequireAuth } from '@/lib/hooks/useRequireAuth'
 import { LoadingSpinner, ApiErrorMessage, Button } from '@/components/ui'
 import GatheringDetail from '@/components/gathering/GatheringDetail'
 import ApplyModal from '@/components/gathering/ApplyModal'
@@ -15,7 +15,7 @@ export default function GatheringDetailPage({
 }) {
   const { id } = use(params)
   const router = useRouter()
-  const { isLoggedIn } = useAuthStore()
+  const { isLoggedIn, requireAuth } = useRequireAuth()
   const { data: gathering, isLoading, isError, refetch } = useGatheringDetail(id)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -42,17 +42,15 @@ export default function GatheringDetailPage({
 
   const handleApplyClick = () => {
     if (isLoggedIn) {
-      // 로그인 상태면 바로 회원 폼으로
       router.push(`/gatherings/${id}/apply?type=user`)
     } else {
-      // 비로그인 상태면 모달 표시
       setIsModalOpen(true)
     }
   }
 
   const handleLoginApply = () => {
     setIsModalOpen(false)
-    router.push(`/login?redirect=/gatherings/${id}/apply?type=user`)
+    requireAuth(`/gatherings/${id}`)
   }
 
   const handleGuestApply = () => {

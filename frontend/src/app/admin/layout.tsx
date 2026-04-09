@@ -7,6 +7,7 @@ import {
   LayoutDashboard, CalendarDays, MapPin, Users, LogOut,
 } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/authStore'
+import { useHydration } from '@/lib/hooks/useHydration'
 
 const sidebarItems = [
   { href: '/admin', icon: LayoutDashboard, label: '대시보드', exact: true },
@@ -18,16 +19,17 @@ const sidebarItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
+  const hydrated = useHydration()
   const { isLoggedIn, isAdmin, nickname, logout } = useAuthStore()
 
-  // 비관리자 접근 차단
+  // hydration 완료 후 비관리자 접근 차단
   useEffect(() => {
-    if (!isLoggedIn || !isAdmin) {
-      router.replace('/')
-    }
-  }, [isLoggedIn, isAdmin, router])
+    if (!hydrated) return
+    if (!isLoggedIn) router.replace('/login?returnUrl=/admin')
+    else if (!isAdmin) router.replace('/')
+  }, [hydrated, isLoggedIn, isAdmin, router])
 
-  if (!isLoggedIn || !isAdmin) return null
+  if (!hydrated || !isLoggedIn || !isAdmin) return null
 
   const handleLogout = () => {
     logout()
@@ -35,7 +37,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="admin-layout flex min-h-screen bg-[#F8F5F2]">
+    <div className="flex min-h-screen bg-[#F8F5F2]">
       {/* 사이드바 */}
       <aside className="w-60 bg-[#1A1A1A] flex flex-col min-h-screen shrink-0">
         {/* 로고 */}
