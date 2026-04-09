@@ -7,6 +7,7 @@ import { Button, Input } from '@/components/ui'
 import { useRegister } from '@/lib/hooks/useAuth'
 import { useAuthStore } from '@/lib/store/authStore'
 import { checkNickname, login } from '@/lib/api/auth'
+import { getRandomAnimalType } from '@/lib/utils/animalProfile'
 import type { Gender } from '@/lib/api/types'
 
 const MBTI_ROWS = [
@@ -86,7 +87,6 @@ export default function OnboardingPage() {
 
     try {
       await registerMutation.mutateAsync({
-        name: step1.name,
         email: step1.email,
         password: step1.password,
         nickname,
@@ -95,6 +95,7 @@ export default function OnboardingPage() {
         age: age ? parseInt(age) : undefined,
         job: job || undefined,
         mbti: mbtiString,
+        animalType: getRandomAnimalType(),
         interests: selectedInterests.length > 0 ? selectedInterests : undefined,
       })
 
