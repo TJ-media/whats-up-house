@@ -50,10 +50,19 @@ export default function UserApplicationForm({ gathering }: UserApplicationFormPr
       return
     }
 
+    if (!profile?.gender || !profile?.age) {
+      setFormError('프로필에 성별과 나이 정보가 필요합니다. 마이페이지에서 설정해주세요.')
+      return
+    }
+
     try {
       await submitMutation.mutateAsync({
         id: gathering.id,
         data: {
+          gender: profile.gender as 'MALE' | 'FEMALE',
+          age: profile.age,
+          job: profile.job ?? undefined,
+          mbti: profile.mbti ?? undefined,
           intro: introduction || '',
           referralSource,
         },

@@ -79,6 +79,10 @@ export interface GuestApplicationRequest {
 }
 
 export interface UserApplicationRequest {
+  gender: Gender
+  age: number
+  job?: string
+  mbti?: string
   intro: string
   referralSource: ReferralSource
 }

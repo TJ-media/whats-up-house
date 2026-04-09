@@ -11,11 +11,16 @@ import { getAnimalEmoji } from '@/lib/utils/animalProfile'
 // /gatherings/[id] 및 하위 경로(/apply, /apply/complete 등)에서 숨김
 const HIDDEN_PATTERNS = [/^\/gatherings\/[^/]+/]
 
+function isValidImageSrc(url: string): boolean {
+  return url.startsWith('/') || url.startsWith('http://') || url.startsWith('https://')
+}
+
 function MyTabIcon({ avatarUrl, animalType }: { avatarUrl?: string | null; animalType?: string | null }) {
-  if (avatarUrl) {
+  const validAvatarUrl = typeof avatarUrl === 'string' && avatarUrl.trim().length > 0 && isValidImageSrc(avatarUrl) ? avatarUrl : null
+  if (validAvatarUrl) {
     return (
       <Image
-        src={avatarUrl}
+        src={validAvatarUrl}
         alt="프로필"
         width={24}
         height={24}
