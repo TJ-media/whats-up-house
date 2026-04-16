@@ -32,14 +32,12 @@ public class UserService {
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .name(request.getName())
+                .gender(request.getGender())
+                .age(request.getAge())
                 .nickname(request.getNickname())
+                .phone(request.getPhone())
                 .build();
-
-        user.updateProfile(
-                request.getNickname(), request.getBio(), request.getGender(), request.getAge(),
-                request.getJob(), request.getMbti(), request.getAnimalType(), request.getAnimalColor(),
-                request.getAnimalPose(), request.getInterests(), request.getAvatarUrl()
-        );
 
         return ProfileResponse.from(userRepository.save(user));
     }
@@ -73,11 +71,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        user.updateProfile(
-                request.getNickname(), request.getBio(), request.getGender(), request.getAge(),
-                request.getJob(), request.getMbti(), request.getAnimalType(), request.getAnimalColor(),
-                request.getAnimalPose(), request.getInterests(), request.getAvatarUrl()
-        );
+        user.updateProfile(request.getName(), request.getGender(), request.getAge(), request.getNickname(), request.getPhone());
 
         return ProfileResponse.from(user);
     }

@@ -1,27 +1,19 @@
 package com.whatsuphouse.backend.domain.user;
 
-import com.whatsuphouse.backend.domain.user.enums.*;
-import com.whatsuphouse.backend.global.exception.CustomException;
-import com.whatsuphouse.backend.global.exception.ErrorCode;
+import com.whatsuphouse.backend.domain.user.enums.Gender;
+import com.whatsuphouse.backend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Getter
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -30,84 +22,43 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
-    private String nickname;
-
     @Column(nullable = false)
     private String password;
 
-    private String bio;
+    @Column(nullable = false, length = 50)
+    private String name;
 
+    @Column(nullable = false, length = 10)
     private Gender gender;
 
-    private Integer age;
+    @Column(nullable = false, length = 10)
+    private String age;
 
-    private Job job;
+    @Column(nullable = false, unique = true, length = 50)
+    private String nickname;
 
-    @Enumerated(EnumType.STRING)
-    private Mbti mbti;
-
-    @Column(name = "animal_type")
-    private AnimalType animalType;
-
-    @Column(name = "animal_color")
-    private String animalColor;
-
-    @Column(name = "animal_pose")
-    private AnimalPose animalPose;
-
-    @JdbcTypeCode(SqlTypes.ARRAY)
-    @Column(columnDefinition = "text[]")
-    private String[] interests;
-
-    @Column(nullable = false)
-    private int mileage = 0;
+    @Column(nullable = false, length = 11)
+    private String phone;
 
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin = false;
 
-    @Column(name = "avatar_url")
-    private String avatarUrl;
-
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
     @Builder
-    public User(String email, String nickname, String password) {
+    public User(String email, String password, String name, Gender gender, String age, String nickname, String phone) {
         this.email = email;
-        this.nickname = nickname;
         this.password = password;
-    }
-
-    public void updateProfile(String nickname, String bio, Gender gender, Integer age,
-                               Job job, Mbti mbti, AnimalType animalType, String animalColor,
-                               AnimalPose animalPose, String[] interests, String avatarUrl) {
-        this.nickname = nickname;
-        this.bio = bio;
+        this.name = name;
         this.gender = gender;
         this.age = age;
-        this.job = job;
-        this.mbti = mbti;
-        this.animalType = animalType;
-        this.animalColor = animalColor;
-        this.animalPose = animalPose;
-        this.interests = interests;
-        this.avatarUrl = avatarUrl;
+        this.nickname = nickname;
+        this.phone = phone;
     }
 
-    public void addMileage(int amount) {
-        this.mileage += amount;
-    }
-
-    public void useMileage(int amount) {
-        if (this.mileage < amount) {
-            throw new CustomException(ErrorCode.MILEAGE_NOT_ENOUGH);
-        }
-        this.mileage -= amount;
+    public void updateProfile(String name, Gender gender, String age, String nickname, String phone) {
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+        this.nickname = nickname;
+        this.phone = phone;
     }
 }

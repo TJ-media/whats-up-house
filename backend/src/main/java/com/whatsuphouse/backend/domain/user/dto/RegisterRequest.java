@@ -1,6 +1,6 @@
 package com.whatsuphouse.backend.domain.user.dto;
 
-import com.whatsuphouse.backend.domain.user.enums.*;
+import com.whatsuphouse.backend.domain.user.enums.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,17 +17,17 @@ public class RegisterRequest {
     private String password;
 
     @NotBlank
+    private String name;
+
+    @NotNull
+    private Gender gender;
+
+    @NotBlank
+    private String age;
+
+    @NotBlank
     private String nickname;
 
-    // 온보딩 (선택)
-    private String bio;
-    private Gender gender;
-    private Integer age;
-    private Job job;
-    private Mbti mbti;
-    private AnimalType animalType;
-    private String animalColor;
-    private AnimalPose animalPose;
-    private String[] interests;
-    private String avatarUrl;
+    @NotBlank
+    private String phone;
 }

@@ -1,7 +1,7 @@
 package com.whatsuphouse.backend.domain.user.dto;
 
 import com.whatsuphouse.backend.domain.user.User;
-import com.whatsuphouse.backend.domain.user.enums.*;
+import com.whatsuphouse.backend.domain.user.enums.Gender;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,37 +13,23 @@ public class ProfileResponse {
 
     private UUID id;
     private String email;
-    private String nickname;
-    private String bio;
+    private String name;
     private Gender gender;
-    private Integer age;
-    private Job job;
-    private Mbti mbti;
-    private AnimalType animalType;
-    private String animalColor;
-    private AnimalPose animalPose;
-    private String[] interests;
-    private int mileage;
+    private String age;
+    private String nickname;
+    private String phone;
     private boolean isAdmin;
-    private String avatarUrl;
 
     public static ProfileResponse from(User user) {
         return ProfileResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
-                .nickname(user.getNickname())
-                .bio(user.getBio())
+                .name(user.getName())
                 .gender(user.getGender())
                 .age(user.getAge())
-                .job(user.getJob())
-                .mbti(user.getMbti())
-                .animalType(user.getAnimalType())
-                .animalColor(user.getAnimalColor())
-                .animalPose(user.getAnimalPose())
-                .interests(user.getInterests())
-                .mileage(user.getMileage())
+                .nickname(user.getNickname())
+                .phone(user.getPhone())
                 .isAdmin(user.isAdmin())
-                .avatarUrl(user.getAvatarUrl())
                 .build();
     }
 }
