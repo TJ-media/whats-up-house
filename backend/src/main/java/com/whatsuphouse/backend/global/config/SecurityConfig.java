@@ -26,6 +26,19 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
+    private static final String[] PERMIT_ALL = {
+        "/api/auth/**",
+        "/swagger-ui/**",
+        "/api-docs/**"
+    };
+
+    //GET 요청만 허용
+    private static final String[] PERMIT_GET = {
+        "/api/gatherings/**",
+        "/api/users/check-nickname",
+        "/api/users/check-email"
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -33,12 +46,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/gatherings/**").permitAll()
+                        .requestMatchers(PERMIT_ALL).permitAll()
+                        .requestMatchers(HttpMethod.GET, PERMIT_GET).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/gatherings/*/applications/guest").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/users/check-nickname").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/users/check-email").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
