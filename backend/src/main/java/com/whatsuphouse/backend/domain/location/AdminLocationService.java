@@ -29,10 +29,9 @@ public class AdminLocationService {
         Location location = Location.builder()
                 .name(request.getName())
                 .address(request.getAddress())
-                .addressDetail(request.getAddressDetail())
+                .mapUrl(request.getMapUrl())
                 .maxCapacity(request.getMaxCapacity())
-                .features(request.getFeatures())
-                .contractStatus(request.getContractStatus())
+                .status(request.getStatus())
                 .memo(request.getMemo())
                 .build();
         return LocationResponse.from(locationRepository.save(location));
@@ -41,8 +40,8 @@ public class AdminLocationService {
     public LocationResponse updateLocation(UUID id, LocationCreateRequest request) {
         Location location = locationRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.LOCATION_NOT_FOUND));
-        location.update(request.getName(), request.getAddress(), request.getAddressDetail(),
-                request.getMaxCapacity(), request.getFeatures(), request.getContractStatus(), request.getMemo());
+        location.update(request.getName(), request.getAddress(), request.getMapUrl(),
+                request.getMaxCapacity(), request.getStatus(), request.getMemo());
         return LocationResponse.from(location);
     }
 

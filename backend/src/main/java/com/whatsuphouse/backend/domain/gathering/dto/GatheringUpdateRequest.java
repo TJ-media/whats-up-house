@@ -17,13 +17,12 @@ public class GatheringUpdateRequest {
     private String title;
 
     private String description;
-    private String[] howToRun;
 
     @NotNull
     private UUID locationId;
 
     @NotNull
-    private LocalDate date;
+    private LocalDate eventDate;
 
     private LocalTime startTime;
     private LocalTime endTime;
@@ -31,11 +30,7 @@ public class GatheringUpdateRequest {
 
     @NotNull
     @Min(1) @Max(20)
-    private Integer capacity;
+    private Integer maxAttendees;
 
     private String thumbnailUrl;
-    private String[] photoUrls;
-    private String[] moodTags;
-    private String[] activityTags;
-    private int mileageReward;
 }

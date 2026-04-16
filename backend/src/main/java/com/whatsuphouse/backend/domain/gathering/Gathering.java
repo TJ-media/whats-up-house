@@ -2,18 +2,13 @@ package com.whatsuphouse.backend.domain.gathering;
 
 import com.whatsuphouse.backend.domain.gathering.enums.GatheringStatus;
 import com.whatsuphouse.backend.domain.location.Location;
+import com.whatsuphouse.backend.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -21,28 +16,24 @@ import java.util.UUID;
 @Table(name = "gatherings")
 @Getter
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Gathering {
+public class Gathering extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 200)
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @JdbcTypeCode(SqlTypes.ARRAY)
-    @Column(name = "how_to_run", columnDefinition = "text[]")
-    private String[] howToRun;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
-    @Column(nullable = false)
-    private LocalDate date;
+    @Column(name = "event_date", nullable = false)
+    private LocalDate eventDate;
 
     @Column(name = "start_time")
     private LocalTime startTime;
@@ -52,81 +43,47 @@ public class Gathering {
 
     private Integer price;
 
-    @Column(nullable = false)
-    private int capacity;
+    @Column(name = "max_attendees", nullable = false)
+    private int maxAttendees;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private GatheringStatus status;
 
-    @Column(name = "thumbnail_url")
+    @Column(name = "thumbnail_url", length = 500)
     private String thumbnailUrl;
 
-    @JdbcTypeCode(SqlTypes.ARRAY)
-    @Column(name = "photo_urls", columnDefinition = "text[]")
-    private String[] photoUrls;
-
-    @JdbcTypeCode(SqlTypes.ARRAY)
-    @Column(name = "mood_tags", columnDefinition = "text[]")
-    private String[] moodTags;
-
-    @JdbcTypeCode(SqlTypes.ARRAY)
-    @Column(name = "activity_tags", columnDefinition = "text[]")
-    private String[] activityTags;
-
-    @Column(name = "mileage_reward", nullable = false)
-    private int mileageReward = 500;
-
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
     @Builder
-    public Gathering(String title, String description, String[] howToRun, Location location,
-                     LocalDate date, LocalTime startTime, LocalTime endTime, Integer price,
-                     int capacity, GatheringStatus status, String thumbnailUrl, String[] photoUrls,
-                     String[] moodTags, String[] activityTags, int mileageReward) {
+    public Gathering(String title, String description, Location location,
+                     LocalDate eventDate, LocalTime startTime, LocalTime endTime, Integer price,
+                     int maxAttendees, GatheringStatus status, String thumbnailUrl) {
         this.title = title;
         this.description = description;
-        this.howToRun = howToRun;
         this.location = location;
-        this.date = date;
+        this.eventDate = eventDate;
         this.startTime = startTime;
         this.endTime = endTime;
         this.price = price;
-        this.capacity = capacity;
+        this.maxAttendees = maxAttendees;
         this.status = status;
         this.thumbnailUrl = thumbnailUrl;
-        this.photoUrls = photoUrls;
-        this.moodTags = moodTags;
-        this.activityTags = activityTags;
-        this.mileageReward = mileageReward;
     }
 
     public void updateStatus(GatheringStatus status) {
         this.status = status;
     }
 
-    public void update(String title, String description, String[] howToRun, Location location,
-                       LocalDate date, LocalTime startTime, LocalTime endTime, Integer price,
-                       int capacity, String thumbnailUrl, String[] photoUrls,
-                       String[] moodTags, String[] activityTags, int mileageReward) {
+    public void update(String title, String description, Location location,
+                       LocalDate eventDate, LocalTime startTime, LocalTime endTime, Integer price,
+                       int maxAttendees, String thumbnailUrl) {
         this.title = title;
         this.description = description;
-        this.howToRun = howToRun;
         this.location = location;
-        this.date = date;
+        this.eventDate = eventDate;
         this.startTime = startTime;
         this.endTime = endTime;
         this.price = price;
-        this.capacity = capacity;
+        this.maxAttendees = maxAttendees;
         this.thumbnailUrl = thumbnailUrl;
-        this.photoUrls = photoUrls;
-        this.moodTags = moodTags;
-        this.activityTags = activityTags;
-        this.mileageReward = mileageReward;
     }
 }

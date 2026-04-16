@@ -16,21 +16,15 @@ public class GatheringDetailResponse {
     private UUID id;
     private String title;
     private String description;
-    private String[] howToRun;
-    private LocalDate date;
+    private LocalDate eventDate;
     private LocalTime startTime;
     private LocalTime endTime;
     private String locationName;
     private String address;
-    private String addressDetail;
     private Integer price;
-    private int capacity;
+    private int maxAttendees;
     private int applicantCount;
     private String thumbnailUrl;
-    private String[] photoUrls;
-    private String[] moodTags;
-    private String[] activityTags;
-    private int mileageReward;
     private double averageRating;
     private int reviewCount;
     private GatheringStatus status;
@@ -41,21 +35,15 @@ public class GatheringDetailResponse {
                 .id(gathering.getId())
                 .title(gathering.getTitle())
                 .description(gathering.getDescription())
-                .howToRun(gathering.getHowToRun())
-                .date(gathering.getDate())
+                .eventDate(gathering.getEventDate())
                 .startTime(gathering.getStartTime())
                 .endTime(gathering.getEndTime())
                 .locationName(gathering.getLocation() != null ? gathering.getLocation().getName() : null)
                 .address(gathering.getLocation() != null ? gathering.getLocation().getAddress() : null)
-                .addressDetail(gathering.getLocation() != null ? gathering.getLocation().getAddressDetail() : null)
                 .price(gathering.getPrice())
-                .capacity(gathering.getCapacity())
+                .maxAttendees(gathering.getMaxAttendees())
                 .applicantCount(applicantCount)
                 .thumbnailUrl(gathering.getThumbnailUrl())
-                .photoUrls(gathering.getPhotoUrls())
-                .moodTags(gathering.getMoodTags())
-                .activityTags(gathering.getActivityTags())
-                .mileageReward(gathering.getMileageReward())
                 .averageRating(averageRating)
                 .reviewCount(reviewCount)
                 .status(gathering.getStatus())

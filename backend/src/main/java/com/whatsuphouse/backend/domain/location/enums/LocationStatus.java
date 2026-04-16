@@ -1,5 +1,5 @@
 package com.whatsuphouse.backend.domain.location.enums;
 
-public enum ContractStatus {
+public enum LocationStatus {
     ACTIVE, EXPIRED
 }

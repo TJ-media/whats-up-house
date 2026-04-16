@@ -15,32 +15,28 @@ public class GatheringListResponse {
 
     private UUID id;
     private String title;
-    private LocalDate date;
+    private LocalDate eventDate;
     private LocalTime startTime;
     private LocalTime endTime;
     private String locationName;
     private Integer price;
-    private int capacity;
+    private int maxAttendees;
     private int applicantCount;
     private String thumbnailUrl;
-    private String[] moodTags;
-    private String[] activityTags;
     private GatheringStatus status;
 
     public static GatheringListResponse from(Gathering gathering, int applicantCount) {
         return GatheringListResponse.builder()
                 .id(gathering.getId())
                 .title(gathering.getTitle())
-                .date(gathering.getDate())
+                .eventDate(gathering.getEventDate())
                 .startTime(gathering.getStartTime())
                 .endTime(gathering.getEndTime())
                 .locationName(gathering.getLocation() != null ? gathering.getLocation().getName() : null)
                 .price(gathering.getPrice())
-                .capacity(gathering.getCapacity())
+                .maxAttendees(gathering.getMaxAttendees())
                 .applicantCount(applicantCount)
                 .thumbnailUrl(gathering.getThumbnailUrl())
-                .moodTags(gathering.getMoodTags())
-                .activityTags(gathering.getActivityTags())
                 .status(gathering.getStatus())
                 .build();
     }

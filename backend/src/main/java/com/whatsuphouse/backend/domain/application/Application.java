@@ -43,10 +43,12 @@ public class Application {
     @Column(name = "guest_phone")
     private String guestPhone;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private Integer age;
 
+    @Enumerated(EnumType.STRING)
     private Job job;
 
     @Enumerated(EnumType.STRING)
@@ -54,9 +56,11 @@ public class Application {
 
     private String intro;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "referral_source")
     private ReferralSource referralSource;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ApplicationStatus status = ApplicationStatus.PENDING;
 

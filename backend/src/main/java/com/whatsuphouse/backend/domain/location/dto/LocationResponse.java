@@ -1,7 +1,7 @@
 package com.whatsuphouse.backend.domain.location.dto;
 
 import com.whatsuphouse.backend.domain.location.Location;
-import com.whatsuphouse.backend.domain.location.enums.ContractStatus;
+import com.whatsuphouse.backend.domain.location.enums.LocationStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,10 +14,9 @@ public class LocationResponse {
     private UUID id;
     private String name;
     private String address;
-    private String addressDetail;
+    private String mapUrl;
     private int maxCapacity;
-    private String[] features;
-    private ContractStatus contractStatus;
+    private LocationStatus status;
     private String memo;
 
     public static LocationResponse from(Location location) {
@@ -25,10 +24,9 @@ public class LocationResponse {
                 .id(location.getId())
                 .name(location.getName())
                 .address(location.getAddress())
-                .addressDetail(location.getAddressDetail())
+                .mapUrl(location.getMapUrl())
                 .maxCapacity(location.getMaxCapacity())
-                .features(location.getFeatures())
-                .contractStatus(location.getContractStatus())
+                .status(location.getStatus())
                 .memo(location.getMemo())
                 .build();
     }

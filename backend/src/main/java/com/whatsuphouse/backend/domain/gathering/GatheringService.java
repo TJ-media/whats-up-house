@@ -22,7 +22,7 @@ public class GatheringService {
     private final GatheringRepository gatheringRepository;
 
     public List<GatheringListResponse> getGatheringsByDate(LocalDate date) {
-        return gatheringRepository.findByDate(date).stream()
+        return gatheringRepository.findByEventDate(date).stream()
                 .map(gathering -> GatheringListResponse.from(gathering, 0))
                 .toList();
     }

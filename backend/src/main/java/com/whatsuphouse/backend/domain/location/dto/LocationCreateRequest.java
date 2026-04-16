@@ -1,6 +1,6 @@
 package com.whatsuphouse.backend.domain.location.dto;
 
-import com.whatsuphouse.backend.domain.location.enums.ContractStatus;
+import com.whatsuphouse.backend.domain.location.enums.LocationStatus;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -16,16 +16,14 @@ public class LocationCreateRequest {
     @NotBlank
     private String address;
 
-    private String addressDetail;
+    private String mapUrl;
 
     @NotNull
     @Min(1) @Max(20)
     private Integer maxCapacity;
 
-    private String[] features;
-
     @NotNull
-    private ContractStatus contractStatus;
+    private LocationStatus status;
 
     private String memo;
 }

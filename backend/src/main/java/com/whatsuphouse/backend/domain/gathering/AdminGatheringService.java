@@ -30,13 +30,13 @@ public class AdminGatheringService {
         List<Gathering> gatherings;
 
         if (status != null && date != null) {
-            gatherings = gatheringRepository.findByDateAndStatus(date, status);
+            gatherings = gatheringRepository.findByEventDateAndStatus(date, status);
         } else if (status != null) {
             gatherings = gatheringRepository.findByStatus(status);
         } else if (date != null) {
-            gatherings = gatheringRepository.findByDate(date);
+            gatherings = gatheringRepository.findByEventDate(date);
         } else {
-            gatherings = gatheringRepository.findAllByOrderByDateAsc();
+            gatherings = gatheringRepository.findAllByOrderByEventDateAsc();
         }
 
         return gatherings.stream()
@@ -52,19 +52,14 @@ public class AdminGatheringService {
         Gathering gathering = Gathering.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
-                .howToRun(request.getHowToRun())
                 .location(location)
-                .date(request.getDate())
+                .eventDate(request.getEventDate())
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .price(request.getPrice())
-                .capacity(request.getCapacity())
+                .maxAttendees(request.getMaxAttendees())
                 .status(request.getStatus())
                 .thumbnailUrl(request.getThumbnailUrl())
-                .photoUrls(request.getPhotoUrls())
-                .moodTags(request.getMoodTags())
-                .activityTags(request.getActivityTags())
-                .mileageReward(request.getMileageReward())
                 .build();
 
         return GatheringDetailResponse.from(gatheringRepository.save(gathering), 0, 0.0, 0);
@@ -75,11 +70,9 @@ public class AdminGatheringService {
         Location location = locationRepository.findById(request.getLocationId())
                 .orElseThrow(() -> new CustomException(ErrorCode.LOCATION_NOT_FOUND));
 
-        gathering.update(request.getTitle(), request.getDescription(), request.getHowToRun(),
-                location, request.getDate(), request.getStartTime(), request.getEndTime(),
-                request.getPrice(), request.getCapacity(), request.getThumbnailUrl(),
-                request.getPhotoUrls(), request.getMoodTags(), request.getActivityTags(),
-                request.getMileageReward());
+        gathering.update(request.getTitle(), request.getDescription(), location,
+                request.getEventDate(), request.getStartTime(), request.getEndTime(),
+                request.getPrice(), request.getMaxAttendees(), request.getThumbnailUrl());
 
         int applicantCount = applicationRepository.countByGatheringIdAndStatusNot(id, ApplicationStatus.CANCELLED);
         return GatheringDetailResponse.from(gathering, applicantCount, 0.0, 0);
