@@ -2,10 +2,12 @@ package com.whatsuphouse.backend.domain.gathering.dto;
 
 import com.whatsuphouse.backend.domain.gathering.Gathering;
 import com.whatsuphouse.backend.domain.gathering.enums.GatheringStatus;
+import com.whatsuphouse.backend.domain.location.Location;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -19,18 +21,24 @@ public class GatheringDetailResponse {
     private LocalDate eventDate;
     private LocalTime startTime;
     private LocalTime endTime;
-    private String locationName;
-    private String address;
     private Integer price;
     private int maxAttendees;
-    private int applicantCount;
+    private long currentApplicants;
+    private String status;
     private String thumbnailUrl;
-    private double averageRating;
-    private int reviewCount;
-    private GatheringStatus status;
+    private LocationDetailDto location;
+    private LocalDateTime createdAt;
 
-    public static GatheringDetailResponse from(Gathering gathering, int applicantCount,
-                                                double averageRating, int reviewCount) {
+    @Getter
+    @Builder
+    public static class LocationDetailDto {
+        private UUID id;
+        private String name;
+        private String address;
+    }
+
+    public static GatheringDetailResponse from(Gathering gathering, long currentApplicants) {
+        Location loc = gathering.getLocation();
         return GatheringDetailResponse.builder()
                 .id(gathering.getId())
                 .title(gathering.getTitle())
@@ -38,15 +46,27 @@ public class GatheringDetailResponse {
                 .eventDate(gathering.getEventDate())
                 .startTime(gathering.getStartTime())
                 .endTime(gathering.getEndTime())
-                .locationName(gathering.getLocation() != null ? gathering.getLocation().getName() : null)
-                .address(gathering.getLocation() != null ? gathering.getLocation().getAddress() : null)
                 .price(gathering.getPrice())
                 .maxAttendees(gathering.getMaxAttendees())
-                .applicantCount(applicantCount)
+                .currentApplicants(currentApplicants)
+                .status(mapStatus(gathering.getStatus()))
                 .thumbnailUrl(gathering.getThumbnailUrl())
-                .averageRating(averageRating)
-                .reviewCount(reviewCount)
-                .status(gathering.getStatus())
+                .location(loc != null
+                        ? LocationDetailDto.builder()
+                                .id(loc.getId())
+                                .name(loc.getName())
+                                .address(loc.getAddress())
+                                .build()
+                        : null)
+                .createdAt(gathering.getCreatedAt())
                 .build();
+    }
+
+    private static String mapStatus(GatheringStatus status) {
+        return switch (status) {
+            case RECRUITING -> "RECRUITING";
+            case CLOSED -> "CLOSED";
+            default -> status.name();
+        };
     }
 }

@@ -15,4 +15,6 @@ public interface ApplicationRepository extends JpaRepository<Application, UUID> 
     boolean existsByGatheringIdAndGuestPhone(UUID gatheringId, String guestPhone);
 
     int countByGatheringIdAndStatusNot(UUID gatheringId, ApplicationStatus status);
+
+    long countByGatheringIdAndStatusIn(UUID gatheringId, List<ApplicationStatus> statuses);
 }

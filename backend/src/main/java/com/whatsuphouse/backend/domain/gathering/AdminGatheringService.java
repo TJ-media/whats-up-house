@@ -25,6 +25,9 @@ public class AdminGatheringService {
     private final LocationRepository locationRepository;
     private final ApplicationRepository applicationRepository;
 
+    private static final List<ApplicationStatus> ACTIVE_STATUSES =
+            List.of(ApplicationStatus.PENDING, ApplicationStatus.ATTENDED);
+
     @Transactional(readOnly = true)
     public List<AdminGatheringListResponse> getGatherings(GatheringStatus status, LocalDate date) {
         List<Gathering> gatherings;
@@ -62,7 +65,7 @@ public class AdminGatheringService {
                 .thumbnailUrl(request.getThumbnailUrl())
                 .build();
 
-        return GatheringDetailResponse.from(gatheringRepository.save(gathering), 0, 0.0, 0);
+        return GatheringDetailResponse.from(gatheringRepository.save(gathering), 0);
     }
 
     public GatheringDetailResponse updateGathering(UUID id, GatheringUpdateRequest request) {
@@ -74,8 +77,8 @@ public class AdminGatheringService {
                 request.getEventDate(), request.getStartTime(), request.getEndTime(),
                 request.getPrice(), request.getMaxAttendees(), request.getThumbnailUrl());
 
-        int applicantCount = applicationRepository.countByGatheringIdAndStatusNot(id, ApplicationStatus.CANCELLED);
-        return GatheringDetailResponse.from(gathering, applicantCount, 0.0, 0);
+        long applicantCount = applicationRepository.countByGatheringIdAndStatusIn(id, ACTIVE_STATUSES);
+        return GatheringDetailResponse.from(gathering, applicantCount);
     }
 
     public void updateStatus(UUID id, GatheringStatusRequest request) {

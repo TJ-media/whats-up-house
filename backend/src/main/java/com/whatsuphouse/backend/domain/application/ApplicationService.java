@@ -81,7 +81,7 @@ public class ApplicationService {
     }
 
     private void validateGathering(Gathering gathering, int currentCount) {
-        if (gathering.getStatus() != GatheringStatus.OPEN) {
+        if (gathering.getStatus() != GatheringStatus.RECRUITING) {
             throw new CustomException(ErrorCode.GATHERING_NOT_RECRUITING);
         }
         if (currentCount >= gathering.getMaxAttendees()) {

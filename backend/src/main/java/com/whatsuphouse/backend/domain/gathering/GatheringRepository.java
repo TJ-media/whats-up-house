@@ -19,6 +19,8 @@ public interface GatheringRepository extends JpaRepository<Gathering, UUID> {
 
     List<Gathering> findByEventDateAndStatus(LocalDate eventDate, GatheringStatus status);
 
+    List<Gathering> findByEventDateAndStatusNotIn(LocalDate eventDate, List<GatheringStatus> statuses);
+
     @Query("SELECT DISTINCT g.eventDate FROM Gathering g WHERE g.status != :status ORDER BY g.eventDate")
     List<LocalDate> findActiveDates(@Param("status") GatheringStatus status);
 
