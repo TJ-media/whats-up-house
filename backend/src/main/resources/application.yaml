@@ -17,6 +17,11 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
+logging:
+  level:
+    root: WARN
+    com.whatsuphouse: INFO
+
 jwt:
   secret: ${JWT_SECRET}
   expiration: 86400000
